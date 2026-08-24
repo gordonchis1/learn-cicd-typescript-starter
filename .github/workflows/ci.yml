@@ -23,19 +23,20 @@ jobs:
 
       - name: Run tests
         run: npm run test -- --coverage
-    style:
-      name: Style
-      runs-on: ubuntu-latest
-      
-      steps:
-        - name: Set up Node
-          uses: actions/setup-node@v5
-          with:
-            node-version: 22
 
-        - name: Install dependencies
-          run: npm ci
+  style:
+    name: Style
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
 
-        - name: Format
-          run: npm run format:write
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Format
+        run: npm run format:write
 
