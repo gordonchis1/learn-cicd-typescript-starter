@@ -8,6 +8,8 @@ jobs:
   Deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
     steps:
       - name: Check out code
@@ -36,6 +38,9 @@ jobs:
 
       - name: 'Build docker image and push to Google Artifact Registry'
         run: 'gcloud builds submit --tag us-central1-docker.pkg.dev/core-era-506518-r2/notely-ar-repo/notely:latest .'
+
+      - name: 'Run db migrations'
+        run: 'npm run db:migrate'
 
       - name: Deploy to Cloud Run
         run: gcloud run deploy notely --image us-central1-docker.pkg.dev/core-era-506518-r2/notely-ar-repo/notely:latest --region us-central1 --allow-unauthenticated --project core-era-506518-r2 --max-instances=4
